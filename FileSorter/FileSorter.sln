@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSorter", "FileSorter\FileSorter.csproj", "{315D9317-C9D2-458E-8BDF-1FE2F026BFDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainBenchmark", "MainBenchmark\MainBenchmark.csproj", "{98FC88CF-9C8E-4946-A676-7836FFDD80B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{315D9317-C9D2-458E-8BDF-1FE2F026BFDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{315D9317-C9D2-458E-8BDF-1FE2F026BFDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{315D9317-C9D2-458E-8BDF-1FE2F026BFDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{315D9317-C9D2-458E-8BDF-1FE2F026BFDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98FC88CF-9C8E-4946-A676-7836FFDD80B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98FC88CF-9C8E-4946-A676-7836FFDD80B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98FC88CF-9C8E-4946-A676-7836FFDD80B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98FC88CF-9C8E-4946-A676-7836FFDD80B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

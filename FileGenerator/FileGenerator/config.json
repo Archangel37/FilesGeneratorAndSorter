@@ -1,0 +1,14 @@
+{
+  "FileSizeBytes": 10737418240,
+  "ResultFilePath" : "0.txt",
+  "DictionaryFilesPaths" : [
+    "WordsDict.txt",
+    "WordsDict2.txt"
+  ],
+  "Kafka" : {
+    "Enabled": true,
+    "BootstrapServers": "localhost:9092",
+    "Topic": "generated_file", 
+    "ClientId" : "FileGenerator"
+  }
+}

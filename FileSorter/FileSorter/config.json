@@ -1,0 +1,13 @@
+{
+  "SubstringLength" : 4,
+  "TemporaryFilesExtension" : ".sort",
+  "WriteMemoryBufferBytes" : 524260,
+  "OutputFolderPath" : "",
+  "OutputFileName" : "FINAL_result.sort",
+  "Kafka" : {
+    "BootstrapServers": "localhost:9092",
+    "Topic": "generated_file",
+    "GroupId" : "FileSortersGroup",
+    "ClientId" : "FileSorter"
+  }
+}
