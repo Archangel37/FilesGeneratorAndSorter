@@ -10,7 +10,9 @@ namespace FileSorter.Implementations
         {
             if (cfg.SubstringLength < 2) cfg.SubstringLength = 2;
             if (cfg.WriteMemoryBufferBytes < 128) cfg.WriteMemoryBufferBytes = 524260; //less than 512Kb
-            
+
+            cfg.TemporaryFilesExtension ??= "";
+
             try
             {
                 if (!string.IsNullOrWhiteSpace(cfg.TemporaryFilesExtension))
@@ -20,7 +22,7 @@ namespace FileSorter.Implementations
             {
                 cfg.TemporaryFilesExtension = ".sort";
             }
-            
+
             try
             {
                 if (!string.IsNullOrWhiteSpace(cfg.OutputFolderPath))
@@ -30,18 +32,19 @@ namespace FileSorter.Implementations
             {
                 cfg.OutputFolderPath = "";
             }
-            
+
             try
             {
                 if (!string.IsNullOrWhiteSpace(cfg.OutputFileName))
                     Path.GetFullPath(cfg.OutputFileName);
+                else cfg.OutputFileName = "result.txt";
             }
             catch
             {
                 cfg.OutputFileName = "result.txt";
             }
         }
-        
+
         //https://stackoverflow.com/questions/4483886/how-can-i-get-a-count-of-the-total-number-of-digits-in-a-number/51099524
         //We'll assume that int is enough
         public static int Digits_IfChain(this int n)
@@ -57,13 +60,14 @@ namespace FileSorter.Implementations
             if (n < 1000000000) return 9;
             return 10;
         }
-        
+
         // Warning!!! Only for strings like $"{num}. {some string}"
         // Faster than sourceLine.Split(". ", StringSplitOptions.RemoveEmptyEntries) etc
         public static SeparatedLine GetSeparatedLine(this string sourceLine)
         {
             var strLength = sourceLine.Length;
             //Span<char> stack = sourceLine.ToCharArray(); - a little slower and allocates
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             Span<char> stack = stackalloc char[strLength];
             for (var i = 0; i < strLength; i++) stack[i] = sourceLine[i];
 
@@ -78,8 +82,10 @@ namespace FileSorter.Implementations
                 else
                 {
                     numberEndIndex = i;
-                    return new SeparatedLine {Number = resultNumber, Text = new string(stack.Slice(numberEndIndex + 2))};
+                    return new SeparatedLine
+                        {Number = resultNumber, Text = new string(stack.Slice(numberEndIndex + 2))};
                 }
+
             //2 for '.' and space
             numberEndIndex += 2;
             return new SeparatedLine {Number = resultNumber, Text = new string(stack.Slice(numberEndIndex))};

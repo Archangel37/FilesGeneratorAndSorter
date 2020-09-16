@@ -15,6 +15,7 @@ namespace FileSorter.Models
             var countNums = Number.Digits_IfChain();
             var countText = Text.Length;
             //buffer on stack
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             Span<char> buffer = stackalloc char[countNums + countText + 2];
 
             //from Number to char array
@@ -32,6 +33,8 @@ namespace FileSorter.Models
 
             return buffer.ToString();
         }
+
+        public static explicit operator string(SeparatedLine separatedLine) => separatedLine.ToString();
 
         public int CompareTo(object obj)
         {

@@ -13,7 +13,7 @@ namespace FileSorter.Implementations
             Log.Information($"Got Message From Kafka: {message}");
             try
             {
-                await SortWorker.ProcessSorting(cfg, 
+                await SortWorker.ProcessSorting(cfg,
                     JsonConvert.DeserializeObject<KafkaMessage>(message), Log.Logger);
             }
             catch (Exception e)

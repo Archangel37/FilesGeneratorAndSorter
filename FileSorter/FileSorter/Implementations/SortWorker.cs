@@ -82,8 +82,8 @@ namespace FileSorter.Implementations
                     File.Delete(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension));
                 }
             });
-        
-        
+
+
         public static async Task ProcessSorting(MainConfig cfg, KafkaMessage message, ILogger logger)
         {
             var dtStart = DateTime.Now.ToUniversalTime();
@@ -93,7 +93,7 @@ namespace FileSorter.Implementations
 
             var dtEndSplitFiles = DateTime.Now.ToUniversalTime();
             logger.Information($"Split files ready in: {dtEndSplitFiles - dtStart}");
-            
+
             // Get ordered keys from dict
             // todo Warning!! Trim end not letters and digits
             var keys = data.OrderBy(x => x.Key)
@@ -113,7 +113,7 @@ namespace FileSorter.Implementations
             logger.Information($"Files Length:");
             logger.Information($"\tSource file (bytes): {source.Length}");
             logger.Information($"\tResult file (bytes): {result.Length}");
-            logger.Information($"TOTAL TIME (GENERATE+KAFKA+SORT):\t{dtEndSorting-message.UtcStartDateTime}");
+            logger.Information($"TOTAL TIME (GENERATE+KAFKA+SORT):\t{dtEndSorting - message.UtcStartDateTime}");
             logger.Information($"Output file:\t{result.FullName}");
         }
     }

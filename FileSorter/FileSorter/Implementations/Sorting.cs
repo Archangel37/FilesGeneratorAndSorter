@@ -66,22 +66,19 @@ namespace FileSorter.Implementations
         {
             var array = new SeparatedLine[input.Length];
             Array.Copy(input, array, input.Length);
-            for (var i = 1; i < array.Length; i++)
-            {
-                var key = array[i];
-                var j = i;
-                while (j > 1 && array[j - 1] > key)
-                {
-                    Swap(ref array[j - 1], ref array[j]);
-                    j--;
-                }
 
-                array[j] = key;
-            }
+            for (var i = 0; i < array.Length - 1; i++)
+            for (var j = i + 1; j > 0; j--)
+                if (array[j - 1] > array[j])
+                {
+                    var temp = array[j - 1];
+                    array[j - 1] = array[j];
+                    array[j] = temp;
+                }
 
             return array;
         }
-        
+
         //Сортировка Шелла
         public static SeparatedLine[] ShellSort(SeparatedLine[] input)
         {
@@ -114,8 +111,8 @@ namespace FileSorter.Implementations
             Array.Copy(input, array, input.Length);
             return array.OrderBy(x => x).ToArray();
         }
-        
-        
+
+
         public static SeparatedLine[] Sort(SeparatedLine[] input)
         {
             var array = new SeparatedLine[input.Length];
@@ -123,80 +120,81 @@ namespace FileSorter.Implementations
             Array.Sort(array);
             return array;
         }
-        
-        
+
+
         //метод возвращающий индекс опорного элемента
         private static int Partition(SeparatedLine[] array, int minIndex, int maxIndex)
         {
             var pivot = minIndex - 1;
             for (var i = minIndex; i < maxIndex; i++)
-            {
                 if (array[i] < array[maxIndex])
                 {
                     pivot++;
                     Swap(ref array[pivot], ref array[i]);
                 }
-            }
 
             pivot++;
             Swap(ref array[pivot], ref array[maxIndex]);
             return pivot;
         }
 
-        //быстрая сортировка
-        private static SeparatedLine[] QuickSort(SeparatedLine[] array, int minIndex, int maxIndex)
-        {
-            if (minIndex >= maxIndex)
-                return array;
+        //быстрая сортировка с рекурсией
+        // private static SeparatedLine[] QuickSort(SeparatedLine[] array, int minIndex, int maxIndex)
+        // {
+        //     if (minIndex >= maxIndex)
+        //         return array;
+        //
+        //     var pivotIndex = Partition(array, minIndex, maxIndex);
+        //     QuickSort(array, minIndex, pivotIndex - 1);
+        //     QuickSort(array, pivotIndex + 1, maxIndex);
+        //     return array;
+        // }
 
-            var pivotIndex = Partition(array, minIndex, maxIndex);
-            QuickSort(array, minIndex, pivotIndex - 1);
-            QuickSort(array, pivotIndex + 1, maxIndex);
-            return array;
-        }
-        
-        static void QuickSortIterative(SeparatedLine[] arr, 
-            int l, int h) 
-        { 
+        private static void QuickSortIterative(SeparatedLine[] arr,
+            int l, int h)
+        {
             // Create an auxiliary stack 
-            int[] stack = new int[h - l + 1]; 
-  
+            var stack = new int[h - l + 1];
+
             // initialize top of stack 
-            int top = -1; 
-  
+            var top = -1;
+
             // push initial values of l and h to 
             // stack 
-            stack[++top] = l; 
-            stack[++top] = h; 
-  
+            stack[++top] = l;
+            stack[++top] = h;
+
             // Keep popping from stack while 
             // is not empty 
-            while (top >= 0) { 
+            while (top >= 0)
+            {
                 // Pop h and l 
-                h = stack[top--]; 
-                l = stack[top--]; 
-  
+                h = stack[top--];
+                l = stack[top--];
+
                 // Set pivot element at its 
                 // correct position in 
                 // sorted array 
-                int p = Partition(arr, l, h); 
-  
+                var p = Partition(arr, l, h);
+
                 // If there are elements on 
                 // left side of pivot, then 
                 // push left side to stack 
-                if (p - 1 > l) { 
-                    stack[++top] = l; 
-                    stack[++top] = p - 1; 
-                } 
-  
+                if (p - 1 > l)
+                {
+                    stack[++top] = l;
+                    stack[++top] = p - 1;
+                }
+
                 // If there are elements on 
                 // right side of pivot, then 
                 // push right side to stack 
-                if (p + 1 < h) { 
-                    stack[++top] = p + 1; 
-                    stack[++top] = h; 
-                } 
-            } 
+                if (p + 1 < h)
+                {
+                    stack[++top] = p + 1;
+                    stack[++top] = h;
+                }
+            }
         }
 
         //TODO: Windows && Linux Winner
