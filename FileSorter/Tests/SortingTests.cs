@@ -96,6 +96,37 @@ namespace Tests
         }
         
         [Fact]
+        public void Test_GetHashCode_Uniqueness()
+        {
+            var concat = ArrayWithSameNumber.Concat(ArrayWithDifferentNums);
+            var allHashCodes = concat.Select(x => x.GetHashCode());
+
+            // not so critical multiple enumeration here
+            // ReSharper disable once PossibleMultipleEnumeration
+            var uniqueHashCodes = allHashCodes.Distinct();
+            
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.True(allHashCodes.Count() == uniqueHashCodes.Count());
+        }
+
+        [Fact]
+        public void Test_InvalidStringToSeparated()
+        {
+            var spLine = ". ABC".GetSeparatedLine();
+            Assert.True(spLine.Equals(new SeparatedLine {Number = 0, Text = "ABC"}));
+
+            try
+            {
+                var res = "".GetSeparatedLine();
+            }
+            catch (Exception e)
+            {
+                Assert.True(e != null);
+            }
+        }
+        
+        
+        [Fact]
         public void Test_ShouldSortProperlyWithSameText()
         {
             var result = Sorting.QuickSort(ArrayWithDifferentNums);
@@ -185,7 +216,7 @@ namespace Tests
         [MemberData(nameof(Functions))]
         public void Test_OthersShouldSortProperlyWithSameText(Func<SeparatedLine[], SeparatedLine[]> func)
         {
-            var result = Sorting.QuickSort(ArrayWithDifferentNums);
+            var result = func(ArrayWithDifferentNums);
             for(var i=0; i < result.Length; i++)
             {
                 Assert.True(result[i].ToString() == ArrayWithDifferentNumsResult[i]);
@@ -194,8 +225,5 @@ namespace Tests
         }
 
         #endregion
-        
-        
-        
     }
 }
