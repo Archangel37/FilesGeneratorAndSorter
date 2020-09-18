@@ -47,7 +47,8 @@ namespace FileSorter.Models
         public static bool operator >(SeparatedLine a, SeparatedLine x)
         {
             if (a == x) return false;
-            var intComparison = string.Compare(a.Text, x.Text, StringComparison.InvariantCulture);
+            //string.Compare(a.Text, x.Text, StringComparison.InvariantCulture);
+            var intComparison = a.Text.Compare(x.Text);
             if (intComparison > 0) return true;
             if (intComparison < 0) return false;
             return a.Number > x.Number;
