@@ -187,6 +187,7 @@ namespace Tests
         private static readonly Func<SeparatedLine[], SeparatedLine[]> ShakerSort = Sorting.ShakerSort;
         private static readonly Func<SeparatedLine[], SeparatedLine[]> ShellSort = Sorting.ShellSort;
         private static readonly Func<SeparatedLine[], SeparatedLine[]> Sort = Sorting.Sort;
+        private static readonly Func<SeparatedLine[], SeparatedLine[]> HybridQs = Sorting.HybridOptimizedQuickSort;
         
         public static IEnumerable<object[]> Functions()
         {
@@ -197,6 +198,7 @@ namespace Tests
             yield return new object[] { ShakerSort };
             yield return new object[] { ShellSort };
             yield return new object[] { Sort };
+            yield return new object[] { HybridQs };
         }
         
         

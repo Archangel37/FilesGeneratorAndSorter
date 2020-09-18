@@ -85,5 +85,11 @@ namespace MainBenchmark
         {
             return Sorting.QuickSort(_test);
         }
+        
+        [Benchmark(Description = "HybridOptimizedQuickSort")]
+        public SeparatedLine[] HybridOptimizedQuickSort_Benchmark()
+        {
+            return Sorting.HybridOptimizedQuickSort(_test);
+        }
     }
 }

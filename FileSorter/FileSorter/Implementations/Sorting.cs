@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FileSorter.Models;
 
@@ -196,6 +197,7 @@ namespace FileSorter.Implementations
                 }
             }
         }
+        
 
         //TODO: Windows && Linux Winner
         public static SeparatedLine[] QuickSort(SeparatedLine[] input)
@@ -204,6 +206,61 @@ namespace FileSorter.Implementations
             Array.Copy(input, array, input.Length);
             QuickSortIterative(array, 0, input.Length - 1);
             return array;
+        }
+        
+        
+        public static SeparatedLine[] HybridOptimizedQuickSort(SeparatedLine[] input)
+        {
+            var array = new SeparatedLine[input.Length];
+            Array.Copy(input, array, input.Length);
+            OptimizedQuickSort(array, 0, input.Length - 1);
+            return array;
+        }
+        
+        
+        //todo
+        private static void OptimizedQuickSort(SeparatedLine[] arr, int low, int high)
+        {
+            while (low < high)
+            {
+                // do insertion sort if 10 or smaller
+                if (high - low < 10)
+                {
+                    InsertionSortForOptimization(arr, low, high);
+                    break;
+                }
+                var pivot = Partition(arr, low, high);
+                // tail call optimizations - recur on smaller sub-array
+                if (pivot - low < high - pivot) {
+                    OptimizedQuickSort(arr, low, pivot - 1);
+                    low = pivot + 1;
+                } else {
+                    OptimizedQuickSort(arr, pivot + 1, high);
+                    high = pivot - 1;
+                }
+            }
+        }
+        
+        private static void InsertionSortForOptimization(IList<SeparatedLine> arr, int low, int high)
+        {
+            // Start from second element (element at index 0
+            // is already sorted)
+            for (var i = low + 1; i <= high; i++)
+            {
+                var value = arr[i];
+                var j = i;
+
+                // Find the index j within the sorted subset arr[0..i-1]
+                // where element arr[i] belongs
+                while (j > low && arr[j - 1] > value)
+                {
+                    arr[j] = arr[j - 1];
+                    j--;
+                }
+                // Note that subarray arr[j..i-1] is shifted to
+                // the right by one position i.e. arr[j+1..i]
+                arr[j] = value;
+            }
         }
     }
 }

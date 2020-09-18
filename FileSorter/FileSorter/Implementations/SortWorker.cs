@@ -64,7 +64,8 @@ namespace FileSorter.Implementations
             {
                 await using var totalWriter =
                     new StreamWriter(Path.Combine(cfg.OutputFolderPath, cfg.OutputFileName), true);
-                foreach (var key in keys)
+                var keysArray = keys as string[] ?? keys.ToArray();
+                foreach (var key in keysArray)
                 {
                     var parallelQueryLines = File
                         .ReadLines(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension)).AsParallel()
@@ -78,9 +79,10 @@ namespace FileSorter.Implementations
                             select processedLine.GetSeparatedLine());
                     // Sort and write files line-by-line from aa.sort to zz.sort
                     foreach (var spLine in Sorting.QuickSort(forSorting)) totalWriter.WriteLine(spLine);
-
-                    File.Delete(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension));
+                    //File.Delete(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension));
                 }
+                // delete all temporary files in parallel (divided deletions costs about +3sec on 10Gb) 
+                Parallel.ForEach(keysArray, (key) => File.Delete(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension)));
             });
 
 
