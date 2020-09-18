@@ -63,6 +63,8 @@ namespace FileSorter.Implementations
 
         // Warning!!! Only for strings like $"{num}. {some string}"
         // Faster than sourceLine.Split(". ", StringSplitOptions.RemoveEmptyEntries) etc
+        // do not use string.Create for spans (2-times slower) [link below]
+        // https://www.stevejgordon.co.uk/creating-strings-with-no-allocation-overhead-using-string-create-csharp
         public static SeparatedLine GetSeparatedLine(this string sourceLine)
         {
             var strLength = sourceLine.Length;
@@ -96,15 +98,9 @@ namespace FileSorter.Implementations
             var strLen = str.Length;
             var otherLen = other.Length;
 
-            Span<char> stackStr = stackalloc char[strLen];
-            for (var i = 0; i < strLen; i++) stackStr[i] = str[i];
-
-            Span<char> stackOther = stackalloc char[otherLen];
-            for (var j = 0; j < otherLen; j++) stackOther[j] = other[j];
-
             for (var k = 0; k < Math.Min(strLen, otherLen); k++)
-                if (stackStr[k] != stackOther[k])
-                    return stackStr[k] > stackOther[k] ? 1 : -1;
+                if (str[k] != other[k])
+                    return str[k] > other[k] ? 1 : -1;
 
             // todo test ternary operator
             if (strLen == otherLen)
