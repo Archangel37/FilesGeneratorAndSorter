@@ -1,7 +1,7 @@
 {
   "SubstringLength" : 4,
   "TemporaryFilesExtension" : ".sort",
-  "WriteMemoryBufferBytes" : 524260,
+  "WriteMemoryBufferBytes" : 1048500,
   "OutputFolderPath" : "",
   "OutputFileName" : "FINAL_result.sort",
   "Kafka" : {

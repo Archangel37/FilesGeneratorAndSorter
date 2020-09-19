@@ -114,7 +114,6 @@ namespace Tests
         {
             var spLine = ". ABC".GetSeparatedLine();
             Assert.True(spLine.Equals(new SeparatedLine {Number = 0, Text = "ABC"}));
-
             try
             {
                 var res = "".GetSeparatedLine();
@@ -188,6 +187,7 @@ namespace Tests
         private static readonly Func<SeparatedLine[], SeparatedLine[]> ShellSort = Sorting.ShellSort;
         private static readonly Func<SeparatedLine[], SeparatedLine[]> Sort = Sorting.Sort;
         private static readonly Func<SeparatedLine[], SeparatedLine[]> HybridQs = Sorting.HybridOptimizedQuickSort;
+        private static readonly Func<SeparatedLine[], SeparatedLine[]> HeapSort = Sorting.HeapSorting;
         
         public static IEnumerable<object[]> Functions()
         {
@@ -199,6 +199,7 @@ namespace Tests
             yield return new object[] { ShellSort };
             yield return new object[] { Sort };
             yield return new object[] { HybridQs };
+            yield return new object[] { HeapSort };
         }
         
         

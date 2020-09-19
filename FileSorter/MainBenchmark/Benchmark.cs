@@ -17,7 +17,7 @@ namespace MainBenchmark
     public class Benchmark
     {
         private readonly SeparatedLine[] _test;
-       
+
         private class ConfigBench: ManualConfig
         {
             public ConfigBench()
@@ -91,5 +91,29 @@ namespace MainBenchmark
         {
             return Sorting.HybridOptimizedQuickSort(_test);
         }
+        
+        [Benchmark(Description = "HeapSort")]
+        public SeparatedLine[] HeapSort_Benchmark()
+        {
+            return Sorting.HeapSorting(_test);
+        }
+        
+        // [Benchmark(Description = "Text Substring")]
+        // public void Substring_Benchmark()
+        // {
+        //     foreach (var line in list)
+        //     {
+        //         var temp = line.Substring(0, 3);
+        //     }
+        // }
+        //    //just a little slower
+        // [Benchmark(Description = "Text Indexers")]
+        // public void Indexers_Benchmark()
+        // {
+        //     foreach (var line in list)
+        //     {
+        //         var temp = line[0..3];
+        //     }
+        // }
     }
 }
