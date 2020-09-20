@@ -1,6 +1,7 @@
 {
   "FileSizeBytes": 10737418240,
   "ResultFilePath" : "0.txt",
+  "WriteFileBufferBytes" : 10485760,
   "DictionaryFilesPaths" : [
     "WordsDict.txt",
     "WordsDict2.txt"

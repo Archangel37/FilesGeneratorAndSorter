@@ -10,8 +10,9 @@ namespace FileGenerator.Implementations
 {
     internal static class FileWorker
     {
-        private static long _resultFileSize =
-            JsonConvert.DeserializeObject<MainConfig>(File.ReadAllText("config.json")).FileSizeBytes;
+        private static readonly MainConfig Cfg = JsonConvert.DeserializeObject<MainConfig>(File.ReadAllText("config.json"));
+        private static long _resultFileSize = Cfg.FileSizeBytes;
+        private static readonly int WriteFileBuffer = Cfg.WriteFileBufferBytes;
 
         internal static Task WriteResultFile(Dictionary<int, char[]> dictionary, string fileName)
         {
@@ -21,7 +22,7 @@ namespace FileGenerator.Implementations
             return Task.Run(() =>
             {
                 var rnd = new Random();
-                using var sw = new StreamWriter(fileName, false, Encoding.ASCII);
+                using var sw = new StreamWriter(fileName, false, Encoding.ASCII, WriteFileBuffer);
                 //allocates because of separatedLine.ToString()
                 foreach (var line in FetchData(rnd, dictionary, count, newLineSize))
                     sw.WriteLine(line);
