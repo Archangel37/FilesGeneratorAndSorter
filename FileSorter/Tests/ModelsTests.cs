@@ -38,7 +38,8 @@ namespace Tests
                 OutputFileName = "test.txt",
                 OutputFolderPath = "",
                 TemporaryFilesExtension = "",
-                WriteMemoryBufferBytes = 0L
+                WriteMemoryBufferBytes = 0,
+                BufferDeltaBytes = 0
             };
             
             
@@ -46,7 +47,8 @@ namespace Tests
             Assert.True(mainConfig.OutputFileName is string);
             Assert.True(mainConfig.OutputFolderPath is string);
             Assert.True(mainConfig.TemporaryFilesExtension is string);
-            Assert.True(mainConfig.WriteMemoryBufferBytes is long);
+            Assert.True(mainConfig.WriteMemoryBufferBytes is int);
+            Assert.True(mainConfig.BufferDeltaBytes is int);
             Assert.True(mainConfig.Kafka.GetType() == typeof(KafkaConfig));
         }
         

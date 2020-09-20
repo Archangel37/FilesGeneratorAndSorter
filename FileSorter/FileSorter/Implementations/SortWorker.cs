@@ -34,12 +34,12 @@ namespace FileSorter.Implementations
                     var sb = dictionary[dictKeyToMatch];
                     sb.AppendLine(processedLine);
 
-                    if (sb.Length > cfg.WriteMemoryBufferBytes)
+                    if (sb.Length > cfg.WriteMemoryBufferBytes - cfg.BufferDeltaBytes)
                     {
                         using var sw =
                             new StreamWriter(
                                 Path.Combine(cfg.OutputFolderPath, dictKeyToMatch + cfg.TemporaryFilesExtension), true,
-                                Encoding.ASCII);
+                                Encoding.ASCII, cfg.WriteMemoryBufferBytes);
                         // Write the buffer and clear sb
                         sw.WriteLine(sb.ToString());
                         sb.Clear();
@@ -52,7 +52,7 @@ namespace FileSorter.Implementations
                     if (info.Value.Length <= 0) return;
                     using var sw =
                         new StreamWriter(Path.Combine(cfg.OutputFolderPath, info.Key + cfg.TemporaryFilesExtension),
-                            true, Encoding.ASCII);
+                            true, Encoding.ASCII, cfg.WriteMemoryBufferBytes);
                     // Write the buffer and clear
                     sw.WriteLine(info.Value.ToString());
                     info.Value.Clear();
@@ -63,7 +63,8 @@ namespace FileSorter.Implementations
             Task.Run(async () =>
             {
                 await using var totalWriter =
-                    new StreamWriter(Path.Combine(cfg.OutputFolderPath, cfg.OutputFileName), true);
+                    new StreamWriter(Path.Combine(cfg.OutputFolderPath, cfg.OutputFileName), true, Encoding.ASCII,
+                        cfg.WriteMemoryBufferBytes);
                 var keysArray = keys as string[] ?? keys.ToArray();
                 foreach (var key in keysArray)
                 {
@@ -81,8 +82,10 @@ namespace FileSorter.Implementations
                     foreach (var spLine in Sorting.QuickSort(forSorting)) totalWriter.WriteLine(spLine);
                     //File.Delete(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension));
                 }
+
                 // delete all temporary files in parallel (divided deletions costs about +3sec on 10Gb) 
-                Parallel.ForEach(keysArray, (key) => File.Delete(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension)));
+                Parallel.ForEach(keysArray,
+                    (key) => File.Delete(Path.Combine(cfg.OutputFolderPath, key + cfg.TemporaryFilesExtension)));
             });
 
 
